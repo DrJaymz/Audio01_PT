@@ -27,8 +27,6 @@ const char *urls[] = {
     "http://stream.live.vc.bbcmedia.co.uk/bbc_radio_fourfm",
     "http://stream.live.vc.bbcmedia.co.uk/bbc_radio_one",
 };
-//  const char *wifi = "shed";
-//  const char *password = "elephantseat";
 
 // ICYStream urlStream(wifi, password);
 URLStream urlStream;
