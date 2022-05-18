@@ -34,7 +34,7 @@ void TFT_printLineAt(String line, int position)
     tft.setTextSize(TFT_TEXT_SIZE);
     tft.setTextColor(TFT_WHITE, TFT_BLUE);
     tft.setTextWrap(false);
-    tft.setCursor(0, 0);
+    tft.setCursor(0, position * 16);
     tft.println(line);
 }
 
@@ -47,6 +47,8 @@ void TFT_printLine(String line, bool clearScreen = false)
     static String lines[height];
     static bool init = false;
     static int current_line = 0;
+
+    if(line.length() == 0) return;
 
     tft.setTextColor(TFT_WHITE, TFT_BLUE);
     tft.setTextWrap(false);
@@ -82,6 +84,7 @@ void TFT_printLine(String line, bool clearScreen = false)
         return;
     }
 
+    Serial.print("TFT:");
     Serial.println(line);
     tft.setCursor(0, 0);
 
@@ -113,6 +116,11 @@ void TFT_printLine(String line, bool clearScreen = false)
     {
         tft.println(lines[i]);
     }
+}
+
+void TFT_clear()
+{
+    tft.fillScreen(TFT_BLUE);
 }
 
 void printScreenLine()

@@ -6,6 +6,7 @@
 void TFT_printLine(String line, bool clearScreen = false);
 void printScreenLine();
 void TFT_printLineAt(String line, int position);
+void TFT_clear();
 // void TFT_wake();
 // void TFT_sleep();
 

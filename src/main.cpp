@@ -31,18 +31,22 @@ const char *urls[] = {
 //  const char *password = "elephantseat";
 
 // ICYStream urlStream(wifi, password);
-URLStream urlStream;
+ICYStream urlStream;
+// URLStream urlStream;
 AudioSourceURL source(urlStream, urls, "audio/mp3");
+// AudioSourceIcyUrl source(urlStream, urls, "audio/mp3");
+
 I2SStream i2s;
 MP3DecoderHelix decoder;
 AudioPlayer player(source, i2s, decoder);
+
 TFT_eSPI tft = TFT_eSPI(135, 240); // Invoke custom library
 char string[16];
 TelnetSpy debug;
 
 #define BUTTON_1 35
 #define BUTTON_2 0
-#define UPDATE_TASK_INTERVAL 2500
+#define UPDATE_TASK_INTERVAL 1000
 
 // Print Audio Metadata
 void printMetaData(MetaDataType type, const char *str, int len)
@@ -53,8 +57,25 @@ void printMetaData(MetaDataType type, const char *str, int len)
   Serial.print(": ");
   Serial.println(str);
 
-  TFT_printLine(toStr(type));
-  TFT_printLine(str, true);
+  // TFT_printLine(toStr(type));
+
+  switch (type)
+  {
+  case MetaDataType::Name:
+    TFT_printLineAt(str, 1);
+    break;
+  case MetaDataType::Description:
+    TFT_printLineAt(str, 2);
+    break;
+  case MetaDataType::Genre:
+    TFT_printLineAt(str, 3);
+    break;
+  case MetaDataType::Title:
+    TFT_printLineAt(str, 4);
+    break;
+  default:
+    break;
+  }
 }
 
 // Moves to the next url when we touch the pin
@@ -132,6 +153,10 @@ void setup()
 
   // setup player
   player.setMetadataCallback(printMetaData);
+
+  delay(2000);
+  TFT_clear();
+
   player.begin();
 }
 
@@ -152,10 +177,10 @@ void loop()
   {
     loopCount++;
     updatePosition();
-    Serial.println(ESP.getMaxAllocHeap() / 1024);
+    //Serial.println(ESP.getMaxAllocHeap() / 1024);
     player.setVolume(0.5);
     nextCheck = millis() + UPDATE_TASK_INTERVAL;
-    sprintf(string, "C %d", loopCount);
-    TFT_printLine(string);
+    //sprintf(string, "C %d", loopCount);
+    //TFT_printLineAt(string, 0);
   }
 }
